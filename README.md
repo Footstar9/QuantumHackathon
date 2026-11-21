@@ -10,6 +10,11 @@ Everything lives in [`level1_python/`](level1_python/):
 | `level1.py` | The Level 1 circuit, one function per stage. Run it for a table of all 24 cases. |
 | `walkthrough.py` | Runs the circuit stage by stage and explains each step in plain language. |
 | `tests/test_level1.py` | Automated tests: 4 errors × 6 test states, plus controls that show the tests can fail. |
+| `level2.py` | Level 2 (phase flips). Reuses `level1.py` and adds two Hadamard layers. |
+| `walkthrough_level2.py` | Stage-by-stage Level 2 walkthrough, including the H-frame stages. |
+| `tests/test_level2.py` | Level 2 tests: 4 errors × 6 states, plus the limit and broken-variant checks. |
+
+(The folder is still called `level1_python` but now holds Level 2 too.)
 
 ### The idea in a few sentences (for the judges)
 
@@ -55,10 +60,45 @@ q4: ─────────────────────────�
 6. All 24 cases: `python level1.py`
 7. Tests: `python -m pytest -v`
 
+## Level 2: Phase-Flip Mines
+
+### The idea in a few sentences (for the judges)
+
+A phase flip Z does not flip a bit, it puts a minus sign on the |1⟩ part.
+On the Level 1 codeword a|000⟩ + b|111⟩, a Z on q0, q1 or q2 gives the *same*
+state a|000⟩ − b|111⟩, so the three errors are indistinguishable and the
+parity checks see nothing. The fix is to change frame with Hadamards, using
+H Z H = X. After encoding, we apply H to all three data qubits, so the stored
+state is a|+++⟩ + b|−−−⟩. The error happens in this frame. Then we apply H
+again: the hit qubit sees H Z H = X (a bit flip) and the others see H H = I.
+That is exactly a Level 1 situation, so the Level 1 syndrome, lookup table
+and decode run unchanged, and all 6 test states come back with fidelity 1.
+Limitation: this code no longer fixes bit flips. An X in the H frame becomes
+a Z on the plain codeword, which the checks cannot see. That needs Level 3.
+
+### Circuit (5 qubits: q0–q2 data, q3–q4 helpers)
+
+```
+q0: ─[ψ]──●────●── H ── E ── H ──[ Level 1 syndrome ]── X? ──[ decode ]──
+q1: ──────X────┼── H ── E ── H ──[  (4 CNOTs onto  ]── X? ──[        ]──
+q2: ───────────X── H ── E ── H ──[   q3 and q4)    ]── X? ──[        ]──
+       encode    enter  error leave      measure q3, q4     fix
+                H frame      H frame
+```
+
+### What the Level 2 tests check
+
+- All 4 errors (I, Z0, Z1, Z2) × 6 test states: right syndrome, right qubit fixed, fidelity 1. Plus 50 random states and a check that the syndrome never changes between runs.
+- Why the H frame is needed: Z0, Z1, Z2 give identical states on the plain codeword, and the Level 1 syndrome reports (0, 0).
+- **Limit:** X errors on the Level 2 code are *not* corrected for |+⟩, |−⟩, |+i⟩, |−i⟩ (fidelity 0). On |0⟩ and |1⟩ they happen to do no harm, which shows why testing only |0⟩ and |1⟩ would be misleading.
+- **Broken variant:** skipping the second Hadamard layer makes recovery fail.
+
+Run it: `cd level1_python`, then `python walkthrough_level2.py Z1 --pause` (or `Z0`, `Z2`, `I`), `python level2.py` for all 24 cases, and `python -m pytest -v` for every test of both levels.
+
 ### Porting to Qiskit later
 
 Each function in `level1.py` is a few gates, so it maps line for line:
-`apply_cnot(s, 0, 1)` → `qc.cx(0, 1)`, `apply_gate(s, X, 2)` → `qc.x(2)`,
+`apply_cnot(s, 0, 1)` → `qc.cx(0, 1)`, `apply_gate(s, X, 2)` → `qc.x(2)`, `hadamard_layer` → `qc.h([0, 1, 2])`,
 `measure_syndrome` → `qc.measure([3, 4], [0, 1])`, and the lookup table becomes
 classically controlled X gates (or post-processing on hardware).
 One gotcha: Qiskit prints bitstrings with qubit 0 on the **right**; here qubit 0 is on the left.
