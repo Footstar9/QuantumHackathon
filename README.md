@@ -14,7 +14,11 @@ Everything lives in [`level1_python/`](level1_python/):
 | `walkthrough_level2.py` | Stage-by-stage Level 2 walkthrough, including the H-frame stages. |
 | `tests/test_level2.py` | Level 2 tests: 4 errors × 6 states, plus the limit and broken-variant checks. |
 
-(The folder is still called `level1_python` but now holds Level 2 too.)
+| `level3.py` | Level 3 (Y errors), helper-qubit method. Reuses `level1.py`. |
+| `walkthrough_level3.py` | Stage-by-stage Level 3 walkthrough. |
+| `tests/test_level3.py` | Level 3 tests: 4 errors × 6 states, plus the limit and broken-variant checks. |
+
+(The folder is still called `level1_python` but now holds Levels 2 and 3 too.)
 
 ### The idea in a few sentences (for the judges)
 
@@ -94,6 +98,46 @@ q2: ───────────X── H ── E ── H ──[   q3 an
 - **Broken variant:** skipping the second Hadamard layer makes recovery fail.
 
 Run it: `cd level1_python`, then `python walkthrough_level2.py Z1 --pause` (or `Z0`, `Z2`, `I`), `python level2.py` for all 24 cases, and `python -m pytest -v` for every test of both levels.
+
+## Level 3: Double-Crossed Mines (helper-qubit method, no Toffoli gates)
+
+### The idea in a few sentences (for the judges)
+
+Y = iXZ, so a Y error is a bit flip and a phase flip on the same qubit, times
+an overall factor i. We use the plain Level 1 code a|000⟩ + b|111⟩. The X part
+of the Y knocks one qubit out of line, so Level 1's two helper qubits and lookup
+table find *which* qubit j was hit. We undo the X part with X on j. That leaves
+i(a|000⟩ − b|111⟩): the Z part has flipped the sign between the two branches,
+and the parity checks cannot see that. But the rules guarantee every non-trivial
+error is a Y, so finding a bit flip also tells us a phase flip happened. We
+apply Z on j (Z on any one data qubit would work) and get i(a|000⟩ + b|111⟩).
+If the syndrome is 00 we do nothing at all, because adding a Z there would
+*create* an error. Level 1's decode then finishes the job, with fidelity 1 on
+all six test states.
+
+**Global phase vs relative sign:** the leftover factor i multiplies the whole
+state, so no measurement can ever detect it, and fidelity rightly ignores it.
+The minus sign *between* the a and b branches is different: it turns |+⟩ into
+|−⟩, which a measurement can detect. That sign is what the Z step repairs.
+
+### Circuit (5 qubits: q0–q2 data, q3–q4 helpers)
+
+```
+q0: ─[ψ]──●────●── Y? ──[ Level 1 syndrome ]── X? ── Z? ──[ decode ]──
+q1: ──────X────┼── Y? ──[  (4 CNOTs onto  ]── X? ── Z? ──[        ]──
+q2: ───────────X── Y? ──[   q3 and q4)    ]── X? ── Z? ──[        ]──
+       encode     error     measure q3, q4    X and Z on qubit j only
+                                              if the syndrome is not 00
+```
+
+### What the Level 3 tests check
+
+- All 4 errors (I, Y0, Y1, Y2) × 6 test states: right syndrome, right qubit, fidelity 1. Plus 50 random states and a check that the syndrome never changes between runs.
+- After recovery the state is exactly i × (the original), so the only difference left is the global phase.
+- **Broken variant:** skipping the Z step still passes on |0⟩ and |1⟩ but fails (fidelity 0) on |+⟩, |−⟩, |+i⟩, |−i⟩. A test using only basis states would miss this mistake.
+- **Limit:** an X-only or Z-only error is *not* corrected. X alone gets an unnecessary Z added, and Z alone gives syndrome 00 so nothing is fixed. Both are outside the Level 3 rules ("any non-trivial error is a Y"). Handling X, Y and Z together needs a bigger code such as Shor's 9-qubit code.
+
+Run it: `cd level1_python`, then `python walkthrough_level3.py Y1 --pause` (or `Y0`, `Y2`, `I`), `python level3.py` for all 24 cases, and `python -m pytest -v` for every test of all three levels.
 
 ### Porting to Qiskit later
 
