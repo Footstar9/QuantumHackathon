@@ -1,0 +1,443 @@
+{
+  "backend": "ideal simulator",
+  "shots": 4000,
+  "circuit_stats": {
+    "two_qubit_gates_max": 8,
+    "two_qubit_gates_min": 8,
+    "depth_max": 12
+  },
+  "rows": [
+    {
+      "state": "|0>",
+      "error": "I",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00000": 4000
+      }
+    },
+    {
+      "state": "|0>",
+      "error": "X0",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 0.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01111": 4000
+      }
+    },
+    {
+      "state": "|0>",
+      "error": "X1",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11010": 4000
+      }
+    },
+    {
+      "state": "|0>",
+      "error": "X2",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10100": 4000
+      }
+    },
+    {
+      "state": "|1>",
+      "error": "I",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00001": 4000
+      }
+    },
+    {
+      "state": "|1>",
+      "error": "X0",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 0.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01110": 4000
+      }
+    },
+    {
+      "state": "|1>",
+      "error": "X1",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11011": 4000
+      }
+    },
+    {
+      "state": "|1>",
+      "error": "X2",
+      "basis": "Z",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10101": 4000
+      }
+    },
+    {
+      "state": "|+>",
+      "error": "I",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00000": 4000
+      }
+    },
+    {
+      "state": "|+>",
+      "error": "X0",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01110": 4000
+      }
+    },
+    {
+      "state": "|+>",
+      "error": "X1",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11010": 4000
+      }
+    },
+    {
+      "state": "|+>",
+      "error": "X2",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10100": 4000
+      }
+    },
+    {
+      "state": "|->",
+      "error": "I",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00001": 4000
+      }
+    },
+    {
+      "state": "|->",
+      "error": "X0",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01111": 4000
+      }
+    },
+    {
+      "state": "|->",
+      "error": "X1",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11011": 4000
+      }
+    },
+    {
+      "state": "|->",
+      "error": "X2",
+      "basis": "X",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10101": 4000
+      }
+    },
+    {
+      "state": "|+i>",
+      "error": "I",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00000": 4000
+      }
+    },
+    {
+      "state": "|+i>",
+      "error": "X0",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 0.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01111": 4000
+      }
+    },
+    {
+      "state": "|+i>",
+      "error": "X1",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11010": 4000
+      }
+    },
+    {
+      "state": "|+i>",
+      "error": "X2",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10100": 4000
+      }
+    },
+    {
+      "state": "|-i>",
+      "error": "I",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 1.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "00001": 4000
+      }
+    },
+    {
+      "state": "|-i>",
+      "error": "X0",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 0.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 1.0,
+        "11": 0.0,
+        "01": 0.0
+      },
+      "counts": {
+        "01110": 4000
+      }
+    },
+    {
+      "state": "|-i>",
+      "error": "X1",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 1.0,
+        "01": 0.0
+      },
+      "counts": {
+        "11011": 4000
+      }
+    },
+    {
+      "state": "|-i>",
+      "error": "X2",
+      "basis": "Y",
+      "shots": 4000,
+      "success_corrected": 1.0,
+      "success_uncorrected": 1.0,
+      "syndrome_correct": 1.0,
+      "syndromes": {
+        "00": 0.0,
+        "10": 0.0,
+        "11": 0.0,
+        "01": 1.0
+      },
+      "counts": {
+        "10101": 4000
+      }
+    }
+  ]
+}

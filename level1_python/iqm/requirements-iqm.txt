@@ -1,0 +1,6 @@
+# Extra packages for running Level 1 on IQM (install with: pip install -r iqm/requirements-iqm.txt)
+iqm-client[qiskit]
+qiskit-aer
+matplotlib
+numpy
+pytest
