@@ -1,5 +1,20 @@
 # Magic State Verification — Levels 1 and 2
 
+**Submission status:** Levels 1 (Pauli tomography) and 2 (fidelity estimation with X and Z shots) are
+complete, tested and documented below. Levels 3 (imperfect measurements) and 4 (certification) were
+not attempted. This README is our results report.
+
+**At a glance (all experiments):**
+
+| | |
+|---|---|
+| Measurements | Ideal single-qubit Pauli X, Y, Z (Level 1) or X, Z only (Level 2), each shot gives ±1 |
+| Simulator | Draws +1 with probability (1 + Tr(ρP))/2; the estimators only ever see counts (N₊, N₋), never ρ |
+| Noise model | Shot noise only (no readout error, no gate error); depolarised test states r = λ·r_T are used as "noisy" inputs |
+| States | Level 1: 7 states (pure, mixed, near surface, \|T⟩). Level 2: 9 states with F_T from 0 to 1 |
+| Shot budgets | Level 1: N = 10, 100, 1000, 10000 per axis, 200 trials. Level 2: 30, 300, 3000, 30000 total, 1000 trials |
+| Seed | `numpy.random.default_rng(2026)` everywhere, so every run is reproducible |
+
 Plain NumPy. Level 1 reconstructs a single-qubit state from simulated Pauli X, Y, Z measurements.
 Level 2 estimates the fidelity F_T with the magic state |T⟩ using X and Z shots only (see [Level 2](#level-2--estimate-the-fidelity) below).
 
@@ -28,6 +43,8 @@ python -m pytest magic_state -q            # runs all tests (expect "134 passed"
 ```
 
 All randomness uses `numpy.random.default_rng(2026)`, so every run prints the same numbers.
+Requires Python 3.9+; we checked these commands in a fresh clone with a new virtual environment
+(`python -m venv .venv` then activate it) and both scripts run in a few seconds.
 
 ## Explanation for the judges
 
@@ -167,3 +184,22 @@ What this shows:
    near |T⟩, where r_x = r_z.
 5. **Ideal measurements assumed.** No readout errors yet; with a flip rate ε every r̂ shrinks by
    (1 − 2ε) and F̂ is biased towards 0.5. Level 3 addresses this.
+
+---
+
+## Attribution
+
+- **Challenge brief:** QuBlitz 2026 *Magic State Verification* brief (problem statement, the X/Z-plane
+  definition of |T⟩, the fidelity formula and the 200-shot worked example used as a unit test).
+- **Motivation:** Google Quantum AI's magic-state cultivation work, in particular C. Gidney, N. Shutty and
+  C. Jones, *Magic state cultivation: growing T states as cheap as CNOT gates*, arXiv:2409.17595 (2024),
+  and Google Quantum AI's experimental demonstration of magic-state cultivation, which the brief is based on.
+- **Standard methods:** single-qubit Pauli (linear-inversion) state tomography and the Bloch-vector
+  representation, as in M. A. Nielsen and I. L. Chuang, *Quantum Computation and Quantum Information*
+  (Cambridge, 2010), §2.4 and §8.4.2; D. F. V. James, P. G. Kwiat, W. J. Munro and A. G. White,
+  *Measurement of qubits*, Phys. Rev. A 64, 052312 (2001). The error bars are the textbook normal
+  approximation for a binomial proportion, propagated linearly.
+- **External code:** none beyond the libraries in `requirements.txt` (NumPy, Matplotlib, pytest).
+- **AI assistance:** the code, tests, experiments and this README were written with the help of
+  Claude (Anthropic) through Claude Code. The team reviewed the methods, ran the experiments and is
+  responsible for the explanations given here and in the live demo.
