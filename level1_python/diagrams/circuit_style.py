@@ -92,17 +92,17 @@ def stage(ax, x0, x1, y_bottom, y_top, name, color, label_drop=0.0):
             weight="bold")
 
 
-def syndrome_table(ax, tx, ty, rows):
+def syndrome_table(ax, tx, ty, rows, col2=1.55, width=3.45):
     """rows: list of (bits, action), header first."""
     height = 0.47 * len(rows) + 0.2
-    ax.add_patch(FancyBboxPatch((tx - 0.15, ty + 0.5 - height), 3.45, height, boxstyle="round,pad=0.05",
+    ax.add_patch(FancyBboxPatch((tx - 0.15, ty + 0.5 - height), width, height, boxstyle="round,pad=0.05",
                                 fc="white", ec=GREEN, lw=1.8, zorder=4))
     for i, (s, a) in enumerate(rows):
         w = "bold" if i == 0 else "normal"
         ax.text(tx + 0.25, ty + 0.15 - i * 0.47, s, fontsize=14.5, va="center", weight=w,
                 family="monospace", zorder=5)
-        ax.text(tx + 1.55, ty + 0.15 - i * 0.47, a, fontsize=14.5, va="center", weight=w, zorder=5)
-    ax.plot([tx, tx + 3.15], [ty - 0.1] * 2, color=GREEN, lw=1, zorder=5)
+        ax.text(tx + col2, ty + 0.15 - i * 0.47, a, fontsize=14.5, va="center", weight=w, zorder=5)
+    ax.plot([tx, tx + width - 0.3], [ty - 0.1] * 2, color=GREEN, lw=1, zorder=5)
 
 
 def legend(ax, x, y, include_h=False, correction="X?"):
@@ -135,6 +135,8 @@ def legend(ax, x, y, include_h=False, correction="X?"):
     classical(ax, x, x + 0.7, y2)
     ax.text(x + 0.9, y2, "measured bit", fontsize=13, va="center")
     x += 3.2
+    if not correction:
+        return
     box_at(ax, x + 0.3, y2, correction, GREEN, dashed=True, w=0.6, h=0.45, fontsize=13)
     ax.text(x + 0.75, y2, "applied only if the table says so", fontsize=13, va="center")
 
