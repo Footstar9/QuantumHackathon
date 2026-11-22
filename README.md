@@ -18,7 +18,11 @@ Everything lives in [`level1_python/`](level1_python/):
 | `walkthrough_level3.py` | Stage-by-stage Level 3 walkthrough. |
 | `tests/test_level3.py` | Level 3 tests: 4 errors × 6 states, plus the limit and broken-variant checks. |
 
-(The folder is still called `level1_python` but now holds Levels 2 and 3 too.)
+| `level4.py` | Level 4 (detect error type) on a 4-qubit code. |
+| `walkthrough_level4.py` | Stage-by-stage Level 4 walkthrough. |
+| `tests/test_level4.py` | Level 4 tests: all 13 errors × 6 states, plus the limit checks. |
+
+(The folder is still called `level1_python` but now holds Levels 2 to 4 too.)
 
 ### The idea in a few sentences (for the judges)
 
@@ -138,6 +142,54 @@ q2: ───────────X── Y? ──[   q3 and q4)    ]── 
 - **Limit:** an X-only or Z-only error is *not* corrected. X alone gets an unnecessary Z added, and Z alone gives syndrome 00 so nothing is fixed. Both are outside the Level 3 rules ("any non-trivial error is a Y"). Handling X, Y and Z together needs a bigger code such as Shor's 9-qubit code.
 
 Run it: `cd level1_python`, then `python walkthrough_level3.py Y1 --pause` (or `Y0`, `Y2`, `I`), `python level3.py` for all 24 cases, and `python -m pytest -v` for every test of all three levels.
+
+## Level 4: Mystery Mines (detect the error type)
+
+### The idea in a few sentences (for the judges)
+
+We spread the secret a|0⟩ + b|1⟩ (starting on q2) over four qubits:
+a(|0000⟩ + |1111⟩)/√2 + b(|0011⟩ + |1100⟩)/√2. Every configuration in it has
+three patterns: q0 = q1, q2 = q3, and flipping all four bits gives the same
+state back. A bit flip (X) breaks q0 = q1 or q2 = q3. A phase flip (Z) leaves
+the bits alone but breaks the flip-all-four symmetry with a minus sign. A Y
+(= iXZ) breaks both. Three helper qubits check the patterns: two parity
+checks, as in Level 1, give the **bit alarm**, and one phase check (helper in
+superposition, CNOT onto all four data qubits) gives the **phase alarm**.
+(bit, phase) = (0,0) → I, (1,0) → X, (0,1) → Z, (1,1) → Y. Every check reads
+a pattern shared by both the a and b parts, so the secret is never measured.
+
+### Encoder and checks (data q0–q3, helpers q4 phase, q5 and q6 bit)
+
+```
+encode : H q1 ; CNOT q2→q3 ; CNOT q1→q0 ; CNOT q1→q2 ; CNOT q1→q3
+error  : X, Y or Z on one data qubit (or none)
+phase  : H q4 ; CNOT q4→q0, q4→q1, q4→q2, q4→q3 ; H q4 ; measure q4
+bits   : CNOT q0→q5, q1→q5 ; CNOT q2→q6, q3→q6 ; measure q5, q6
+decode : bit alarm = q5 OR q6, phase alarm = q4, then the table above
+```
+
+### Results
+
+All 13 cases (no error, plus X, Y and Z on each of the 4 qubits) × 6 secret
+states are classified correctly, and 20 random secrets give the same result.
+The readings never depend on the secret or on chance. After the helpers are
+measured, the data qubits are exactly (error × clean codeword), with fidelity 1,
+so detection did not destroy the secret.
+
+| Error | q4 q5 q6 | Detected |
+| --- | --- | --- |
+| I | 0 0 0 | I |
+| X0, X1 | 0 1 0 | X |
+| X2, X3 | 0 0 1 | X |
+| Y0, Y1 | 1 1 0 | Y |
+| Y2, Y3 | 1 0 1 | Y |
+| Z0–Z3 | 1 0 0 | Z |
+
+**Limits (also tested):** the type is found but not always the location: X0 and
+X1 look the same, and all four Z positions look the same. Two errors can cancel
+out: X0 + X1 reads as "no error". Without the phase check, Z errors are invisible.
+
+Run it: `cd level1_python`, then `python walkthrough_level4.py Y1 --pause` (any of `I`, `X0`–`X3`, `Y0`–`Y3`, `Z0`–`Z3`), `python level4.py` for the table, and `python -m pytest -v` for every test.
 
 ### Porting to Qiskit later
 
