@@ -171,7 +171,7 @@ decode : bit alarm = q5 OR q6, phase alarm = q4, then the table above
 ### Results
 
 All 13 cases (no error, plus X, Y and Z on each of the 4 qubits) × 6 secret
-states are classified correctly, and 20 random secrets give the same result.
+states are classified correctly, and 50 random secrets give the same result.
 The readings never depend on the secret or on chance. After the helpers are
 measured, the data qubits are exactly (error × clean codeword), with fidelity 1,
 so detection did not destroy the secret.

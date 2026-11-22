@@ -76,7 +76,7 @@ def test_readings_are_deterministic(error_name):
 
 def test_random_secrets():
     rng = np.random.default_rng(11)
-    for _ in range(20):
+    for _ in range(50):
         a, b = rng.normal(size=2) + 1j * rng.normal(size=2)
         for error_name in level4.ERRORS:
             r = level4.run(a, b, error_name, rng=rng)
