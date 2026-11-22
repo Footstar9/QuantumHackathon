@@ -11,7 +11,7 @@ Under the hood the cargo is a real logical qubit in **Shor's 9-qubit code**, sim
 ## How to run (no install)
 
 1. On GitHub, click the green **Code** button, then **Download ZIP**, and unzip it.
-   (Or, in VS Code: *Clone Git Repository…*, paste the repo URL, then switch to this branch.)
+   (Or, in VS Code: *Clone Git Repository…*, paste the repo URL, then open the `schrodingers_cargo` folder.)
 2. Open the `schrodingers_cargo` folder.
 3. **Double-click `index.html`.** It opens in your browser. It works offline.
 

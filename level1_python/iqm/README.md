@@ -54,3 +54,47 @@ If the window closes while waiting, the job id is in `results/hardware_job.json`
 * X errors on |+⟩, |−⟩ do no harm even without correction, because X leaves |±⟩ unchanged.
 * When there is no error, the correction slightly *lowers* success (about 0.92 instead of 0.96
   for |0⟩), because noise sometimes produces a false syndrome and we then "fix" a good qubit.
+
+## Hardware results (IQM Garnet, 22 Nov 2026)
+
+Run on the real **IQM Garnet** computer through IQM Resonance: one job of 24 circuits,
+1000 shots each (job `01a202da-c692-7434-9e70-49c39c4a7717`, submitted 10:43 UTC).
+Raw counts are in [`results/hardware.json`](results/hardware.json).
+Run the commands above from inside `level1_python/`.
+
+![Success: ideal vs noisy model vs hardware](results/success_sim_vs_hardware.png)
+![Syndrome correct: noisy model vs hardware](results/syndromes_sim_vs_hardware.png)
+
+| | Ideal simulator | Noisy Garnet model | Real Garnet |
+| --- | --- | --- | --- |
+| Secret state recovered (average of 24 cases) | 100% | 89.9% | **89.2%** |
+| Syndrome correct (average) | 100% | 89.0% | **88.2%** |
+
+Success after correction on hardware, per case (1000 shots each):
+
+| State | I | X0 | X1 | X2 |
+| --- | --- | --- | --- | --- |
+| \|0⟩ | 95.7% | 88.4% | 92.7% | 97.4% |
+| \|1⟩ | 91.1% | 83.8% | 86.9% | 86.0% |
+| \|+⟩ | 91.4% | 90.3% | 90.5% | 89.1% |
+| \|−⟩ | 90.1% | 89.2% | 88.9% | 89.1% |
+| \|+i⟩ | 90.0% | 83.7% | 86.7% | 89.3% |
+| \|−i⟩ | 88.7% | 86.1% | 88.2% | 88.4% |
+
+### What we observe
+
+* **The hardware matches the noise model closely**: 89.2% vs 89.9% average success, so the
+  noise model of Garnet is a good prediction of the real chip.
+* **The correction clearly works.** An X error on q0 is the one that damages the secret
+  (q0 holds it after decoding). Without correction it comes back right only 4.1 to 10.5% of the
+  time on |0⟩, |1⟩, |+i⟩, |−i⟩; with correction it comes back right 83.7 to 88.4% of the time.
+  (X on q1 or q2 does not reach q0 after decoding, and X does not change |+⟩, |−⟩, so those
+  cases look fine even without correction.)
+* **|1⟩ is a bit worse than the model predicts** (for example X2 on |1⟩: 86.0% on hardware vs 95.1%
+  in the model). A likely reason is that a qubit in |1⟩ can decay to |0⟩ (T1 relaxation) and
+  reading out 1 is less reliable than reading out 0. This is our interpretation, not something we measured separately.
+* **With no error, correction slightly lowers success** (|0⟩: 95.7% with correction, 97.8% without),
+  because noise sometimes produces a false syndrome and we then "fix" a qubit that was fine.
+  A 3-qubit code only pays off when real errors are more likely than errors made by the check itself.
+* The remaining ~10% failure comes from the noise of the 11 two-qubit gates and readout in each circuit,
+  which this small code cannot protect against.
