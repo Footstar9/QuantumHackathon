@@ -105,7 +105,7 @@ def syndrome_table(ax, tx, ty, rows):
     ax.plot([tx, tx + 3.15], [ty - 0.1] * 2, color=GREEN, lw=1, zorder=5)
 
 
-def legend(ax, x, y, include_h=False):
+def legend(ax, x, y, include_h=False, correction="X?"):
     """A two-row key explaining every symbol, starting at (x, y)."""
     ax.text(x, y, "Key:", fontsize=14, va="center", weight="bold", color=GREY)
     x0 = x + 1.0
@@ -135,7 +135,7 @@ def legend(ax, x, y, include_h=False):
     classical(ax, x, x + 0.7, y2)
     ax.text(x + 0.9, y2, "measured bit", fontsize=13, va="center")
     x += 3.2
-    box_at(ax, x + 0.3, y2, "X?", GREEN, dashed=True, w=0.6, h=0.45, fontsize=13)
+    box_at(ax, x + 0.3, y2, correction, GREEN, dashed=True, w=0.6, h=0.45, fontsize=13)
     ax.text(x + 0.75, y2, "applied only if the table says so", fontsize=13, va="center")
 
 
