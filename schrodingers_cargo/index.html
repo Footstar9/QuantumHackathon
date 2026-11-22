@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schrödinger's Cargo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <main id="app" aria-live="polite"></main>
+
+  <!-- How-to-play overlay -->
+  <div id="rules" class="overlay" hidden>
+    <div class="panel rules-panel" role="dialog" aria-modal="true" aria-labelledby="rules-title">
+      <button class="close" data-action="close-rules" aria-label="Close">×</button>
+      <h2 id="rules-title">How to play</h2>
+      <p>A single qubit of precious cargo is spread across <b>9 physical qubits</b> in three crates (the Shor code). Two players take turns.</p>
+      <ol>
+        <li><b>Noise</b> (secretly) flips up to <b>budget</b> qubits with <span class="tag x">X</span> bit flip, <span class="tag z">Z</span> phase flip, or <span class="tag y">Y</span> both.</li>
+        <li>Pass the computer. The <b>Decoder</b> never sees the errors, only the <b>8 check lamps</b>:
+          <ul>
+            <li><span class="lamp-dot zc"></span> <b>orange</b> lamps compare the bits of two neighbouring qubits. They light for X or Y.</li>
+            <li><span class="lamp-dot xc"></span> <b>blue</b> lamps compare the phase of two neighbouring crates. They light for Z or Y.</li>
+          </ul>
+        </li>
+        <li>The Decoder applies fixes with the same switches and presses <b>Ship it</b>.</li>
+        <li>The cargo is <b>safe</b> if the leftover error (Noise × fix) does nothing to the stored qubit. Decoder scores. Otherwise Noise scores.</li>
+        <li>Roles swap every round. Highest score at the end wins.</li>
+      </ol>
+      <p class="muted">Tip for Decoders: the fewest errors that explain the lamps is usually right, but a sneaky Noise can disguise two errors as one.</p>
+      <p class="muted">Tip for Noise: two flips in the same crate look like one flip on the third qubit…</p>
+      <button class="btn primary" data-action="close-rules">Got it</button>
+    </div>
+  </div>
+
+  <script src="qec.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
